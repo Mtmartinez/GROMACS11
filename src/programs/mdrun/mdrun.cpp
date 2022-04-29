@@ -47,6 +47,7 @@
  *
  * \ingroup module_mdrun
  */
+#include <time.h>
 #include "gmxpre.h"
 
 #include "config.h"
@@ -274,9 +275,10 @@ int gmx_mdrun(MPI_Comm communicator, const gmx_hw_info_t& hwinfo, int argc, char
     // \todo Output environment should be configured outside of Mdrunner and provided as a resource.
     builder.addOutputEnvironment(options.oenv);
     builder.addLogFile(logFileGuard.get());
-
+	double start = clock();
     auto runner = builder.build();
-
+	double finsih = clock();
+	fprintf("Time to run: %f", (double)(finsih - start)/CLOCKS_PER_SEC);
     return runner.mdrunner();
 }
 
